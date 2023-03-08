@@ -1,12 +1,16 @@
 package main
 
 import (
+	"embed"
 	"fmt"
 	"github.com/nasermirzaei89/env"
 	"html/template"
 	"log"
 	"net/http"
 )
+
+//go:embed index.gohtml
+var Assets embed.FS
 
 func main() {
 	mux := http.NewServeMux()
