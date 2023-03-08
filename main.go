@@ -3,10 +3,11 @@ package main
 import (
 	"embed"
 	"fmt"
-	"github.com/nasermirzaei89/env"
 	"html/template"
 	"log"
 	"net/http"
+
+	"github.com/nasermirzaei89/env"
 )
 
 //go:embed index.gohtml
@@ -15,7 +16,7 @@ var Assets embed.FS
 func main() {
 	mux := http.NewServeMux()
 
-	tmpl := template.Must(template.ParseFiles("index.gohtml"))
+	tmpl := template.Must(template.ParseFS(Assets, "index.gohtml"))
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		_ = tmpl.Execute(w, nil)
