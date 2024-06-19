@@ -1,13 +1,13 @@
 package main
 
 import (
+	"cmp"
 	"embed"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
-
-	"github.com/nasermirzaei89/env"
+	"os"
 )
 
 //go:embed index.gohtml
@@ -22,10 +22,9 @@ func main() {
 		_ = tmpl.Execute(w, nil)
 	})
 
-	port := env.GetString("PORT", "8080")
+	port := cmp.Or(os.Getenv("PORT"), "8080")
 
-	err := http.ListenAndServe(":"+port, mux)
-	if err != nil {
+	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatalln(fmt.Errorf("error on listen and serve http: %w", err))
 	}
 }
